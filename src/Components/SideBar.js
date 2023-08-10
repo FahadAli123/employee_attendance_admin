@@ -16,6 +16,7 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import AssistantIcon from '@mui/icons-material/Assistant';
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { primaryColor } from "../Helpers/Colors";
@@ -70,9 +71,9 @@ const generalList = [
   },
   {
     id: 7,
-    text: "Custom Support",
-    icon: <SupervisedUserCircleIcon />,
-    url: "/support",
+    text: "Create Assistants",
+    icon: <AssistantIcon />,
+    url: "/createAssistant",
   },
   // {
   //   id: 7,

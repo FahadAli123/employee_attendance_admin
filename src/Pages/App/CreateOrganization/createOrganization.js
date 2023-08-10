@@ -58,61 +58,55 @@ const createOrganization = () => {
     console.log(formData);
   };
   return (
-    <div className="w-full h-full pt-5">
-      {loading && <Loader />}
-      {/* <div class="text-[30px] font-medium ">Create New Organization</div>
-      <span class="text-[#AEAEAE] font-light">
-        Fill all the required fields and add new organization.
-      </span> */}
-      {/* <div className="h-full mt-10 w-full bg-white rounded-md shadow-sm p-5"> */}
-      {/* <div className="w-full flex flex-row items-center justify-between"> */}
-      {/* <div class="text-[22px] font-medium items-center ">Create Organization</div> */}
-      <div className="organization-form">
+    <div className="organization-form">
+      <div className="form-container">
         <style>
           {`
-          .organization-form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f7f7f7;
-            font-family: Arial, sans-serif;
-          }
-
-          .form-container {
+            .organization-form {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100vh;
+              background-color: #f7f7f7;
+              font-family: Arial, sans-serif;
+            }
+           .form-container {
             width: 800px;
-            padding: 30px;
+            padding: 60px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
           }
-
+          
           .form-heading {
-            text-align: center;
-            margin-bottom: 20px;
             font-size: 24px;
-            font-weight: bold;
-            color: #333;
+            margin-bottom: 20px;
+            text-align:center;
+            font-weight:bold;
           }
-
+          
           .form-group {
             margin-bottom: 20px;
           }
-
-          .form-label {
-            font-size: 14px;
-            color: #555;
+          
+          .input-group {
+            display: flex;
+            gap: 10px;
           }
-
+          
           .form-input {
             width: 100%;
             padding: 10px;
-            margin-top:3%;
-            border: 2px solid #ccc;
+            margin-bottom: 25px;
+            // border: 2px solid #ccc;
+            background-color: cyan;
             border-radius: 10px;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
           }
-
+          
+          .inline-input {
+            flex: 1;
+          }
+          
           .submit-button {
             background-color: #000000;
             color: white;
@@ -124,98 +118,101 @@ const createOrganization = () => {
             font-size: 16px;
             transition: background-color 0.3s;
           }
-
+          
           .submit-button:hover {
-            background-color: #0056b3;
+            background-color: #808080;
           }
         `}
         </style>
-        <div className="form-container">
-          <h2 className="form-heading">CREATE NEW ORGANIZATION</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
+        <h2 className="form-heading">CREATE NEW ORGANIZATION</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <div className="input-group">
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="name"
-                placeholder="Enter the Organization Name"
+                placeholder="Organization Name"
                 value={formData.name}
                 onChange={handleChange}
               />
               <input
                 type="text"
-                className="form-input"
-                name="address"
-                placeholder="Enter the Address of Organization"
-                value={formData.address}
-                onChange={handleChange}
-              />
-              <input
-                type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="phone"
-                placeholder="Enter Orginization Phone"
+                placeholder="Phone"
                 value={formData.phone}
                 onChange={handleChange}
               />
+            </div>
+            <input
+              type="text"
+              className="form-input"
+              name="address"
+              placeholder="Organization address"
+              value={formData.address}
+              onChange={handleChange}
+            />
+            <div className="input-group">
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="coord1"
-                placeholder="Enter Coordinate 1"
+                placeholder="Coordinate 1"
                 value={formData.coord1}
                 onChange={handleChange}
               />
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="coord2"
-                placeholder="Enter Coordinate 2"
+                placeholder="Coordinate 2"
                 value={formData.coord2}
                 onChange={handleChange}
               />
+            </div>
+            <div className="input-group">
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="coord3"
-                placeholder="Enter Coordinate 3"
+                placeholder="Coordinate 3"
                 value={formData.coord3}
                 onChange={handleChange}
               />
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="coord4"
-                placeholder="Enter Coordinate 4"
+                placeholder="Coordinate 4"
                 value={formData.coord4}
                 onChange={handleChange}
               />
+            </div>
+            <div className="input-group">
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="coord5"
-                placeholder="Enter Coordinate 5"
+                placeholder="Coordinate 5"
                 value={formData.coord5}
                 onChange={handleChange}
               />
               <input
                 type="text"
-                className="form-input"
+                className="form-input inline-input"
                 name="coord6"
-                placeholder="Enter Coordinate 6"
+                placeholder="Coordinate 6"
                 value={formData.coord6}
                 onChange={handleChange}
               />
             </div>
-            {/* Rest of the form fields */}
-            <button type="submit" className="submit-button">
-              Create Organization
-            </button>
-          </form>
-        </div>
+          </div>
+          <button type="submit" className="submit-button">
+            Create Organization
+          </button>
+        </form>
       </div>
-      {/* </div> */}
-      {/* </div> */}
     </div>
   );
 };

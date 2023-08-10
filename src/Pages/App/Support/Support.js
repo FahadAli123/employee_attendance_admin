@@ -1,110 +1,218 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
-import Loader from "../../../Components/Loader";
-import deleteIcon from "../../../Assets/icons/delete.png";
-import editIcon from "../../../Assets/icons/edit.png";
-import eyeIcon from "../../../Assets/icons/eye.png";
-import shareIcon from "../../../Assets/icons/share.png";
+// import Loader from "../../../Components/Loader";
+// import deleteIcon from "../../../Assets/icons/delete.png";
+// import editIcon from "../../../Assets/icons/edit.png";
+// import eyeIcon from "../../../Assets/icons/eye.png";
+// import shareIcon from "../../../Assets/icons/share.png";
 
-import { GetMessages } from "../../../services/SupportService";
+import { GetAllOrganization } from "../../../services/OrganizationService";
 
-const Support = () => {
+// import { GetAllUsers } from "../../../services/UserService";
+
+const createAssistant = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [data, setData] = useState([]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   useEffect(() => {
+  //     async function fetchUsers() {
+  //       setLoading(true);
+  //       const response = await GetAllUsers();
+  //       console.log(response);
+  //       setData(response.data);
+  //       setLoading(false);
+  //     }
+
+  //     fetchUsers();
+
+  //     return () => {
+  //       setData([]);
+  //     };
+  //   }, []);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const response = await GetMessages();
-      console.log(response);
-      setData(response.data);
+    setLoading(true);
+    GetAllOrganization().then((res) => {
+      setData(res.data);
       setLoading(false);
-    }
-
-    fetchData();
-
-    return () => {
-      setData([]);
-    };
+    });
   }, []);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    address: "",
+    city: "",
+    country: "",
+    phone: "",
+    gmail: "",
+    website: "",
+    industry: "",
+  });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  // Handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Process form data, e.g., send it to a server or perform validation
+    console.log(formData);
+  };
   return (
-    <div className="w-full h-full pt-5">
-      {loading && <Loader />}
-      <div class="text-[30px] font-medium ">Support</div>
-      <span class="text-[#AEAEAE] font-light">
-        All Custom Support Messages By Users.
-      </span>
-      <div className="h-full mt-10 w-full bg-white rounded-md shadow-sm p-5">
-        <div className="w-full flex flex-row items-center justify-between">
-          <div class="text-[22px] font-medium ">Support</div>
-          <div class="w-[40%] flex flex-row items-center justify-between">
-            <div class="w-[67px] cursor-pointer h-[30px] flex items-center justify-center rounded-md bg-white border-black border-[1px]">
-              Filters
-            </div>
-            <div class="w-[141px] cursor-pointer flex items-center justify-center h-[30px] text-white rounded-md bg-primary">
-              Students Account
-            </div>
-            <div class="w-[141px] cursor-pointer h-[30px] flex items-center justify-center text-white rounded-md bg-primary">
-              Teachers Account
-            </div>
-            <div class="w-[67px] cursor-pointer h-[30px] flex items-center justify-center rounded-md bg-primary">
-              <img src={shareIcon} />
-            </div>
-          </div>
-        </div>
+    <div className="organization-form">
+      <div className="form-container">
+        <style>
+          {`
+            .organization-form {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100vh;
+              background-color: #f7f7f7;
+              font-family: Arial, sans-serif;
+            }
+           .form-container {
+            width: 550px;
+            padding: 60px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          }
+          
+          .form-heading {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align:center;
+            font-weight:bold;
+          }
+          
+          .form-group {
+            margin-bottom: 20px;
+          }
+          
+          .input-group {
+            display: flex;
+            gap: 10px;
+          }
+          
+          .form-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 25px;
+            // border: 2px solid #ccc;
+            background-color: cyan;
+            border-radius: 10px;
+          }
+          
+          .inline-input {
+            flex: 1;
+          }
+          
+          .select-input {
+             
+            appearance: none; /* Hide the default arrow */
+            padding: 10px;
+            // border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: cyan;
+            cursor: pointer;
+          }
 
-        <table class=" w-[100%] bg-white m-auto mt-10 rounded-lg">
-          <tr>
-            <th class="font-medium text-[#404040] text-left px-2 py-2">
-              Created At
-            </th>
-            <th class="font-medium text-[#404040] text-left px-2 py-2">ID</th>
-            <th class="font-medium text-[#404040] text-left px-2 py-2">
-              UserName
-            </th>
-            <th class="font-medium text-[#404040] text-left px-2 py-2">
-              Message
-            </th>
-            <th class="font-medium text-[#404040] text-left px-2 py-2">
-              Status
-            </th>
-            <th class="font-medium text-[#404040] text-left px-2 py-2">
-              Actions
-            </th>
-          </tr>
-          {data.map((item, index) => {
-            return (
-              <tr
-                key={index}
-                class="border-b-[1px] h-14 cursor-pointer hover:bg-slate-100"
-              >
-                <td class="text-[#AEAEAE] text-Left px-2 py-2">
-                  {item.createdAt}
-                </td>
-                <td class="text-[#AEAEAE] text-left px-2 py-2">
-                  {item.user_id}
-                </td>
-                <td class="text-[#AEAEAE] text-left px-2 py-2">{item.name}</td>
-                <td class="text-[#AEAEAE] text-left px-2 py-2">
-                  {item.message}
-                </td>
-                <td class="text-[#AEAEAE] text-left px-2 py-2">pending</td>
-                <td class="text-[#AEAEAE] text-left px-2 py-2">
-                  <div className="flex w-[50%] flex-row items-center justify-between">
-                    <img src={eyeIcon} />
-                    <img src={editIcon} />
-                    <img src={deleteIcon} />
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </table>
+          .submit-button {
+            background-color: #000000;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+          }
+          
+          .submit-button:hover {
+            background-color: #808080;
+          }
+        `}
+        </style>
+        <h2 className="form-heading">CREATE ASSISTANT OF ORGANIZATION</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-input"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              className="form-input"
+              name="gmail"
+              placeholder="Gmail"
+              value={formData.gmail}
+              onChange={handleChange}
+            />
+
+            <input
+              type="text"
+              className="form-input"
+              name="phone"
+              placeholder="Phone"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+
+            <input
+              type="text"
+              className="form-input"
+              name="cnic"
+              placeholder="CNIC"
+              value={formData.cnic}
+              onChange={handleChange}
+            />
+            <select
+              className="form-input select-input"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="">Select Role</option>
+              <option value="Assistant">Assistant</option>
+              <option value="Sub-Assistant">Sub-Assistant</option>
+            </select>
+
+            <select
+              className="form-input select-input"
+              name="organization"
+              value={formData.organization}
+              onChange={handleChange}
+            >
+              <option value="">Select Organization</option>
+              {data.map((org) => (
+                <option key={org.id} value={org.name}>
+                  {org.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button type="submit" className="submit-button">
+            Create Assistant
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
-export default withRouter(Support);
+export default withRouter(createAssistant);

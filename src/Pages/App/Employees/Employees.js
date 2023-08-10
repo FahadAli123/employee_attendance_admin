@@ -11,15 +11,34 @@ import { GET_ALL_EMPLOYEES } from "../../../services/EmployeeService";
 const Employees = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     setLoading(true);
     GET_ALL_EMPLOYEES().then((res) => {
       console.log(res.data);
       setData(res.data);
+      setFilteredData(res.data);
       setLoading(false);
     });
   }, []);
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    const query = searchQuery.toLowerCase();
+
+    if (query) {
+      const filteredResults = data.filter((item) =>
+        item.name.toLowerCase().includes(query),
+      );
+      setFilteredData(filteredResults);
+    } else {
+      setFilteredData(data);
+    }
+  };
 
   return (
     <div className="w-full h-full pt-5">
@@ -44,6 +63,8 @@ const Employees = () => {
             marginRight: "15px",
           }}
           placeholder="Filter"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
 
         {/* Search button */}
@@ -55,6 +76,7 @@ const Employees = () => {
             border: "none",
             borderRadius: "4px",
           }}
+          onClick={handleSearchButtonClick}
         >
           Search
         </button>
@@ -62,30 +84,37 @@ const Employees = () => {
       <div className="h-full mt-10 w-full bg-white rounded-md shadow-sm p-5">
         <div className="w-full flex flex-row items-center justify-between">
           <div class="text-[22px] font-medium ">Employees</div>
+          <div class="w-[40%] flex flex-row items-center justify-between"></div>
         </div>
 
         <table class=" w-[100%] bg-white m-auto mt-10 rounded-lg">
-          <tr>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">Name</th>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">CNIC</th>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">
-              Email
-            </th>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">
-              Organization Name
-            </th>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">
-              Phone
-            </th>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">
-              Created At
-            </th>
-            <th class="font-medium text-[#000000] text-left px-2 py-2">
-              Actions
-            </th>
-          </tr>
-          {data &&
-            data.map((item, index) => {
+          <thead>
+            <tr>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Name
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                CNIC
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Email
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Organization Name
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Phone
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Created At
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((item, index) => {
               return (
                 <tr
                   key={index}
@@ -119,6 +148,7 @@ const Employees = () => {
                 </tr>
               );
             })}
+          </tbody>
         </table>
       </div>
     </div>

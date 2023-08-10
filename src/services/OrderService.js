@@ -8,8 +8,8 @@
  */
 
 import axios from 'axios';
-import {baseUrl} from '../helpers/Config';
-import {apiEndPoints} from '../helpers/Config';
+// import {baseUrl} from '../helpers/Config';
+// import {apiEndPoints} from '../helpers/Config';
 
 const GetStudentOrders = async id => {
   try {

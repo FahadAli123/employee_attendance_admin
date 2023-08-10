@@ -12,7 +12,7 @@ import Home from "../Pages/App/Home/Home";
 import Users from "../Pages/App/Users/Users";
 // import Transactions from "../Pages/App/Organizations/Organizations";
 import createOrganization from "../Pages/App/CreateOrganization/createOrganization";
-// import Support from "../Pages/App/Support/Support";
+import Support from "../Pages/App/Support/Support";
 // import Rates from "../Pages/App/Rates/Rates";
 // import Questions from "../Pages/App/Employees/Employees";
 // import Offers from "../Pages/App/Administrator/Administrator";
@@ -37,7 +37,11 @@ const Router = () => {
             <PrivateRoute exact path="/" component={Home} />
             <PrivateRoute exact path="/dashboard" component={Home} />
             <PrivateRoute exact path="/users" component={Users} />
-            <PrivateRoute exact path="/administrators" component={Administrator} />
+            <PrivateRoute
+              exact
+              path="/administrators"
+              component={Administrator}
+            />
             {/* <PrivateRoute exact path="/administrators" component={Administrator} /> */}
 
             <PrivateRoute
@@ -51,7 +55,7 @@ const Router = () => {
               component={Organizations}
             />
             <PrivateRoute exact path="/employees" component={Employees} />
-            {/* <PrivateRoute exact path="/support" component={Support} /> */}
+            <PrivateRoute exact path="/createAssistant" component={Support} />
             {/* <PrivateRoute exact path="/rates" component={Rates} /> */}
             {/* <PrivateRoute exact path="/questions" component={Questions} /> */}
             <PrivateRoute

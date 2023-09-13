@@ -5,6 +5,7 @@ import Loader from "../../../Components/Loader";
 import deleteIcon from "../../../Assets/icons/delete.png";
 import editIcon from "../../../Assets/icons/edit.png";
 import eyeIcon from "../../../Assets/icons/eye.png";
+
 // import shareIcon from "../../../Assets/icons/share.png";
 
 import { GetAllUsers } from "../../../services/AdministratorService";
@@ -19,6 +20,7 @@ const Administrators = () => {
     setLoading(true);
     GetAllUsers().then((res) => {
       setData(res.data);
+      console.log("......>..>>", res.data);
       setFilteredData(res.data);
       setLoading(false);
     });
@@ -32,7 +34,7 @@ const Administrators = () => {
 
     if (query) {
       const filteredResults = data.filter((item) =>
-        item.name.toLowerCase().includes(query),
+        item.organizationname.toLowerCase().includes(query),
       );
       setFilteredData(filteredResults);
     } else {
@@ -43,7 +45,7 @@ const Administrators = () => {
   return (
     <div className="w-full h-full pt-5">
       {loading && <Loader />}
-      <div class="text-[30px] font-medium ">List of All Users</div>
+      <div class="text-[30px] font-medium ">List of All Focal Person</div>
 
       <div
         style={{
@@ -79,7 +81,7 @@ const Administrators = () => {
       </div>
       <div className="h-full mt-10 w-full bg-white rounded-md shadow-sm p-5">
         <div className="w-full flex flex-row items-center justify-between">
-          <div class="text-[22px] font-medium ">Users</div>
+          <div class="text-[22px] font-medium ">Focal Person</div>
           <div class="w-[40%] flex flex-row items-center justify-between"></div>
         </div>
 
@@ -117,7 +119,7 @@ const Administrators = () => {
                     {item.name}
                   </td>
                   <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    {item.organization_name}
+                    {item.organizationname}
                   </td>
                   <td class="text-[#AEAEAE] text-left px-2 py-2">
                     {item.role_name}

@@ -16,7 +16,8 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import AssistantIcon from '@mui/icons-material/Assistant';
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import AssistantIcon from "@mui/icons-material/Assistant";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { primaryColor } from "../Helpers/Colors";
@@ -47,15 +48,15 @@ const generalList = [
   },
   {
     id: 3,
-    text: "Organizations",
-    icon: <Business />,
-    url: "/organizations",
+    text: "Upload Org File",
+    icon: <FileUploadIcon />,
+    url: "/uploadFile",
   },
   {
     id: 4,
-    text: "Users",
-    icon: <People />,
-    url: "/users",
+    text: "Organizations",
+    icon: <Business />,
+    url: "/organizations",
   },
   {
     id: 5,
@@ -65,15 +66,15 @@ const generalList = [
   },
   {
     id: 6,
-    text: "Administrator",
+    text: "Focal Person",
     icon: <SupervisorAccountIcon />,
-    url: "/administrators",
+    url: "/focalPerson",
   },
   {
     id: 7,
-    text: "Create Assistants",
+    text: "Create Focal Person",
     icon: <AssistantIcon />,
-    url: "/createAssistant",
+    url: "/createFocalPerson",
   },
   // {
   //   id: 7,

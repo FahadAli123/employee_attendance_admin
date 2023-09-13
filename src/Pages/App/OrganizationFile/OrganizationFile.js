@@ -5,8 +5,7 @@ import Loader from "../../../Components/Loader";
 import deleteIcon from "../../../Assets/icons/delete.png";
 import editIcon from "../../../Assets/icons/edit.png";
 import eyeIcon from "../../../Assets/icons/eye.png";
-import shareIcon from "../../../Assets/icons/share.png";
-import { GET_ALL_EMPLOYEES } from "../../../services/EmployeeService";
+import { GetAllOrganization } from "../../../services/OrganizationService";
 
 const Employees = () => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +13,10 @@ const Employees = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [fileInputs, setFileInputs] = useState({});
 
   const handleEyeIconClick = (item) => {
     setSelectedItem(item);
@@ -28,7 +30,7 @@ const Employees = () => {
 
   useEffect(() => {
     setLoading(true);
-    GET_ALL_EMPLOYEES().then((res) => {
+    GetAllOrganization().then((res) => {
       console.log(res.data);
       setData(res.data);
       setFilteredData(res.data);
@@ -51,11 +53,24 @@ const Employees = () => {
       setFilteredData(data);
     }
   };
+  const handleFileChange = (event, item) => {
+    // Handle file change logic here
+    const selectedFile = event.target.files[0];
+    // Do something with the selected file, such as storing it in state or sending it to the backend
+    console.log("Selected file:", selectedFile);
+    setSelectedFile(selectedFile);
+  };
 
+  const handleUploadButtonClick = (item) => {
+    // Trigger file input click
+    fileInputs[item.id].click();
+  };
   return (
     <div className="w-full h-full pt-5">
       {loading && <Loader />}
-      <div class="text-[30px] font-medium ">List Of Employees</div>
+      <div class="text-[30px] font-medium ">
+        Upload File against Organization
+      </div>
       {/* <span class="text-[#AEAEAE] font-light">
         Get details about the questions posted by students.
       </span> */}
@@ -95,7 +110,7 @@ const Employees = () => {
       </div>
       <div className="h-full mt-10 w-full bg-white rounded-md shadow-sm p-5">
         <div className="w-full flex flex-row items-center justify-between">
-          <div class="text-[22px] font-medium ">Employees</div>
+          <div class="text-[22px] font-medium ">Files of Employee</div>
           <div class="w-[40%] flex flex-row items-center justify-between"></div>
         </div>
 
@@ -106,19 +121,10 @@ const Employees = () => {
                 Name
               </th>
               <th class="font-medium text-[#000000] text-left px-2 py-2">
-                CNIC
-              </th>
-              <th class="font-medium text-[#000000] text-left px-2 py-2">
-                Email
-              </th>
-              <th class="font-medium text-[#000000] text-left px-2 py-2">
-                Organization Name
-              </th>
-              <th class="font-medium text-[#000000] text-left px-2 py-2">
-                Phone
-              </th>
-              <th class="font-medium text-[#000000] text-left px-2 py-2">
                 Created At
+              </th>
+              <th class="font-medium text-[#000000] text-left px-2 py-2">
+                Upload File
               </th>
               <th class="font-medium text-[#000000] text-left px-2 py-2">
                 Actions
@@ -136,22 +142,37 @@ const Employees = () => {
                     {item.name}
                   </td>
                   <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    {item.cnic}
+                    {item.created_at}
                   </td>
                   <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    {item.email}
+                    {selectedFile ? (
+                      <div>
+                        <p>{selectedFile.name}</p>
+                        <button
+                          onClick={() => handleUploadButtonClick(item)}
+                          className="cursor-pointer"
+                        ></button>
+                      </div>
+                    ) : (
+                      <div>
+                        <input
+                          type="file"
+                          accept=".pdf"
+                          onChange={(event) => handleFileChange(event, item)}
+                          className="hidden"
+                          ref={(input) => (fileInputs[item.id] = input)}
+                        />
+                        <button
+                          onClick={() => handleUploadButtonClick(item)}
+                          className="cursor-pointer"
+                        >
+                          Upload File
+                        </button>
+                      </div>
+                    )}
                   </td>
                   <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    {item.organizationname}
-                  </td>
-                  <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    {item.phone}
-                  </td>
-                  <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    {item.createdat}
-                  </td>
-                  <td class="text-[#AEAEAE] text-left px-2 py-2">
-                    <div className="flex w-[100%] flex-row items-center justify-between">
+                    <div className="flex w-[30%] flex-row items-center justify-between">
                       <img
                         src={eyeIcon}
                         alt="View Details"

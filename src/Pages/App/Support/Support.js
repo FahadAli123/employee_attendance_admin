@@ -2,57 +2,45 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
 // import Loader from "../../../Components/Loader";
-// import deleteIcon from "../../../Assets/icons/delete.png";
-// import editIcon from "../../../Assets/icons/edit.png";
-// import eyeIcon from "../../../Assets/icons/eye.png";
-// import shareIcon from "../../../Assets/icons/share.png";
-
 import { GetAllOrganization } from "../../../services/OrganizationService";
-
-// import { GetAllUsers } from "../../../services/UserService";
-
+import { addFocalPerson } from "../../../services/FocalPersonService";
+import { GetAllRole } from "../../../services/RolesService";
+// import { getAllByRole } from "@testing-library/react";
 const createAssistant = () => {
+  const initialFormData = {
+    name: "",
+    gmail: "",
+    phone: "",
+    cnic: "",
+    role: "",
+    organization: "",
+  };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [data, setData] = useState([]);
-
+  // const [data, setData] = useState([]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   useEffect(() => {
-  //     async function fetchUsers() {
-  //       setLoading(true);
-  //       const response = await GetAllUsers();
-  //       console.log(response);
-  //       setData(response.data);
-  //       setLoading(false);
-  //     }
-
-  //     fetchUsers();
-
-  //     return () => {
-  //       setData([]);
-  //     };
-  //   }, []);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [roles, setRoles] = useState([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [organizations, setOrganizations] = useState([]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     setLoading(true);
     GetAllOrganization().then((res) => {
-      setData(res.data);
+      console.log(">>>>>ORGANIZTION", res);
+      setOrganizations(res.data);
+      setLoading(false);
+    });
+    GetAllRole().then((res) => {
+      console.log(">>>>>ROLESs", res);
+      setRoles(res.data);
       setLoading(false);
     });
   }, []);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    address: "",
-    city: "",
-    country: "",
-    phone: "",
-    gmail: "",
-    website: "",
-    industry: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,10 +50,39 @@ const createAssistant = () => {
     }));
   };
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Process form data, e.g., send it to a server or perform validation
-    console.log(formData);
+    console.log(">>>>>>FORM DATA", formData);
+    // Get the selected organization and role objects
+    const selectedOrg = organizations.find(
+      (org) => org.id === parseInt(formData.organization),
+    );
+    const selectedRole = roles.find(
+      (role) => role.id === parseInt(formData.role),
+    );
+    try {
+      // Send the data to create the focal person
+      const focalPersonData = {
+        name: formData.name,
+        gmail: formData.gmail,
+        phone: formData.phone,
+        cnic: formData.cnic,
+        r_id: selectedRole.id,
+        o_id: selectedOrg.id,
+      };
+      console.log(">>>>FOCAL PERSON DATA", focalPersonData);
+      const focalPersonResult = await addFocalPerson(focalPersonData);
+      if (focalPersonResult) {
+        setShowSuccessPopup(true);
+        setFormData(initialFormData);
+        console.log("Focal Person added:", focalPersonResult);
+      } else {
+        console.error("Error adding focal person:", focalPersonResult.message);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
   return (
     <div className="organization-form">
@@ -142,9 +159,53 @@ const createAssistant = () => {
           .submit-button:hover {
             background-color: #808080;
           }
+          .success-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease-in-out;
+          }
+          
+          .success-popup.show {
+            visibility: visible;
+            opacity: 1;
+          }
+          
+          .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          .popup-content h2 {
+            margin-bottom: 10px;
+          }
+          
+          .popup-content button {
+            background-color: #000000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          
+          .popup-content button:hover {
+            background-color: #0056b3;
+          }
         `}
         </style>
-        <h2 className="form-heading">CREATE ASSISTANT OF ORGANIZATION</h2>
+        <h2 className="form-heading">CREATE FOCAL PERSON OF ORGANIZATION</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
@@ -188,8 +249,11 @@ const createAssistant = () => {
               onChange={handleChange}
             >
               <option value="">Select Role</option>
-              <option value="Assistant">Assistant</option>
-              <option value="Sub-Assistant">Sub-Assistant</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
             </select>
 
             <select
@@ -199,8 +263,8 @@ const createAssistant = () => {
               onChange={handleChange}
             >
               <option value="">Select Organization</option>
-              {data.map((org) => (
-                <option key={org.id} value={org.name}>
+              {organizations.map((org) => (
+                <option key={org.id} value={org.id}>
                   {org.name}
                 </option>
               ))}
@@ -210,6 +274,13 @@ const createAssistant = () => {
             Create Assistant
           </button>
         </form>
+        <div className={`success-popup ${showSuccessPopup ? "show" : ""}`}>
+          <div className="popup-content">
+            <h2>Success!</h2>
+            <p>Focal person created successfully.</p>
+            <button onClick={() => setShowSuccessPopup(false)}>OK</button>
+          </div>
+        </div>
       </div>
     </div>
   );

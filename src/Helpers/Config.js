@@ -14,9 +14,17 @@ module.exports = {
     },
     USERS: {
       GET_ALL_USERS: "/users",
+      CREATE_USER: "/createUser",
     },
     ORGANIZATION: {
       GET_ALL_ORGANIZATION: "/organization",
+      CREATE_ORGANIZATION: "/organization/create",
+    },
+    PREMISES: {
+      ADD_PREMISES: "/organization/premises",
+    },
+    ROLES:{
+      GET_ALL_ROLES:"/role/all"
     },
     // End points for Orders
     ORDERS: {

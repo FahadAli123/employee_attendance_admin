@@ -18,6 +18,7 @@ import Support from "../Pages/App/Support/Support";
 // import Offers from "../Pages/App/Administrator/Administrator";
 import SendNotifications from "../Pages/App/Notifications/SendNotifications";
 import Organizations from "../Pages/App/Organizations/Organizations";
+import OrganizationsFile from "../Pages/App/OrganizationFile/OrganizationFile";
 // import Employees from "../Pages/App/Employees/Employees";
 
 import PageLayout from "./SideDrawer";
@@ -37,11 +38,7 @@ const Router = () => {
             <PrivateRoute exact path="/" component={Home} />
             <PrivateRoute exact path="/dashboard" component={Home} />
             <PrivateRoute exact path="/users" component={Users} />
-            <PrivateRoute
-              exact
-              path="/administrators"
-              component={Administrator}
-            />
+            <PrivateRoute exact path="/focalPerson" component={Administrator} />
             {/* <PrivateRoute exact path="/administrators" component={Administrator} /> */}
 
             <PrivateRoute
@@ -51,11 +48,16 @@ const Router = () => {
             />
             <PrivateRoute
               exact
+              path="/uploadFile"
+              component={OrganizationsFile}
+            />
+            <PrivateRoute
+              exact
               path="/Organizations"
               component={Organizations}
             />
             <PrivateRoute exact path="/employees" component={Employees} />
-            <PrivateRoute exact path="/createAssistant" component={Support} />
+            <PrivateRoute exact path="/createFocalPerson" component={Support} />
             {/* <PrivateRoute exact path="/rates" component={Rates} /> */}
             {/* <PrivateRoute exact path="/questions" component={Questions} /> */}
             <PrivateRoute

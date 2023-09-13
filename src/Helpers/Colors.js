@@ -1,7 +1,7 @@
 /** @format */
 
 module.exports = {
-  primaryColor: "#7CC327",
+  primaryColor: "#000000",
   background: "#282D3C",
   whiteText: "#ffffff",
   blackText: "black",
